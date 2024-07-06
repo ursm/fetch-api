@@ -48,7 +48,7 @@ Options for `fetch` method:
 - `method`: HTTP method (default: `'GET'`)
 - `headers`: Request headers (default: `{}`)
 - `body`: Request body (default: `nil`)
-- `redirect`: Follow redirects (one of `follow`, `error`, `manual`, default: `follow`)
+- `redirect`: Follow redirects (one of `'follow'`, `'error'`, `'manual'`, default: `'follow'`)
 
 Methods of `Fetch::Response` object:
 
