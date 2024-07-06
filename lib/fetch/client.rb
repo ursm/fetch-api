@@ -17,8 +17,6 @@ module Fetch
       uri = URI.parse(resource)
       req = Net::HTTP.const_get(method.capitalize).new(uri)
 
-      headers = Headers.new(headers) unless headers.is_a?(Headers)
-
       headers.each do |k, v|
         req[k] = v
       end
@@ -68,18 +66,10 @@ module Fetch
     private
 
     def to_response(url, res, redirected)
-      headers = Headers.new
-
-      res.each do |k, vs|
-        vs.split(', ').each do |v|
-          headers.append k, v
-        end
-      end
-
       Response.new(
         url:        ,
         status:     res.code.to_i,
-        headers:    ,
+        headers:    Headers.new(res),
         body:       res.body,
         redirected:
       )
