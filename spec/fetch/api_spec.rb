@@ -4,11 +4,21 @@ RSpec.describe Fetch::API do
   include Fetch::API
 
   example 'simple get' do
-    stub_request :get, 'http://example.com'
+    stub_request(:get, 'http://example.com').to_return(
+      headers: {
+        'Content-Type' => 'text/plain'
+      },
+
+      body: 'Hello, world!'
+    )
 
     res = fetch('http://example.com')
 
-    expect(res).to be_ok
+    expect(res.url).to eq('http://example.com')
+    expect(res.status).to eq(200)
+    expect(res.headers.to_h).to eq('content-type' => 'text/plain')
+    expect(res.body).to eq('Hello, world!')
+    expect(res.redirected).to eq(false)
   end
 
   example 'https' do
@@ -16,13 +26,13 @@ RSpec.describe Fetch::API do
 
     res = fetch('https://example.com')
 
-    expect(res).to be_ok
+    expect(res.status).to eq(200)
   end
 
   example 'post JSON' do
     stub_request :post, 'http://example.com'
 
-    res = fetch('http://example.com', **{
+    fetch 'http://example.com', **{
       method: 'POST',
 
       headers: {
@@ -32,9 +42,7 @@ RSpec.describe Fetch::API do
       body: {
         name: 'Alice'
       }.to_json
-    })
-
-    expect(res).to be_ok
+    }
 
     expect(WebMock).to have_requested(:post, 'http://example.com').with(
       headers: {
@@ -48,12 +56,10 @@ RSpec.describe Fetch::API do
   example 'post form' do
     stub_request :post, 'http://example.com'
 
-    res = fetch('http://example.com', **{
+    fetch 'http://example.com', **{
       method: 'POST',
       body:   Fetch::URLSearchParams.new(name: 'Alice')
-    })
-
-    expect(res).to be_ok
+    }
 
     expect(WebMock).to have_requested(:post, 'http://example.com').with(
       headers: {
@@ -67,10 +73,8 @@ RSpec.describe Fetch::API do
   example 'post multipart' do
     stub_request :post, 'http://example.com'
 
-    res = nil
-
     File.open 'spec/fixtures/files/foo.txt' do |f|
-      res = fetch('http://example.com', **{
+      fetch 'http://example.com', **{
         method: 'POST',
 
         headers: {
@@ -81,10 +85,8 @@ RSpec.describe Fetch::API do
           name: 'Alice',
           file: f
         )
-      })
+      }
     end
-
-    expect(res).to be_ok
 
     expect(WebMock).to have_requested(:post, 'http://example.com').with(
       headers: {
@@ -104,7 +106,8 @@ RSpec.describe Fetch::API do
 
     res = fetch('http://example.com', redirect: 'follow')
 
-    expect(res).to be_ok
+    expect(res.status).to eq(200)
+    expect(res.redirected).to eq(true)
 
     expect(WebMock).to have_requested(:get, 'http://example.com/redirected')
   end
@@ -115,7 +118,7 @@ RSpec.describe Fetch::API do
     })
 
     expect {
-      fetch('http://example.com', redirect: 'error')
+      fetch 'http://example.com', redirect: 'error'
     }.to raise_error(Fetch::RedirectError)
   end
 
@@ -126,6 +129,7 @@ RSpec.describe Fetch::API do
 
     res = fetch('http://example.com', redirect: 'manual')
 
-    expect(res).to be_redirect
+    expect(res.status).to eq(302)
+    expect(res.redirected).to eq(false)
   end
 end

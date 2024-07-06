@@ -1,10 +1,11 @@
 require_relative '../fetch'
 require_relative 'form_data'
+require_relative 'headers'
+require_relative 'response'
 require_relative 'url_search_params'
 
 require 'marcel'
 require 'net/http'
-require 'rack/response'
 require 'singleton'
 require 'uri'
 
@@ -12,9 +13,11 @@ module Fetch
   class Client
     include Singleton
 
-    def fetch(resource, method: 'GET', headers: {}, body: nil, redirect: 'follow')
+    def fetch(resource, method: 'GET', headers: [], body: nil, redirect: 'follow', _redirected: false)
       uri = URI.parse(resource)
       req = Net::HTTP.const_get(method.capitalize).new(uri)
+
+      headers = Headers.new(headers) unless headers.is_a?(Headers)
 
       headers.each do |k, v|
         req[k] = v
@@ -49,23 +52,37 @@ module Fetch
       when Net::HTTPRedirection
         case redirect
         when 'follow'
-          fetch(res['Location'], method:, headers:, body:, redirect:)
+          fetch(res['Location'], method:, headers:, body:, redirect:, _redirected: true)
         when 'error'
           raise RedirectError, "redirected to #{res['Location']}"
         when 'manual'
-          to_rack_response(res)
+          to_response(resource, res, _redirected)
         else
           raise ArgumentError, "invalid redirect option: #{redirect}"
         end
       else
-        to_rack_response(res)
+        to_response(resource, res, _redirected)
       end
     end
 
     private
 
-    def to_rack_response(res)
-      Rack::Response.new(res.body, res.code, res.to_hash)
+    def to_response(url, res, redirected)
+      headers = Headers.new
+
+      res.each do |k, vs|
+        vs.split(', ').each do |v|
+          headers.append k, v
+        end
+      end
+
+      Response.new(
+        url:        ,
+        status:     res.code.to_i,
+        headers:    ,
+        body:       res.body,
+        redirected:
+      )
     end
   end
 end
