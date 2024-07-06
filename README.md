@@ -29,8 +29,8 @@ require 'fetch-api'
 
 res = Fetch::API.fetch('https://example.com')
 
-# res is a Rack::Response object
-puts res.body.first
+# res is a Fetch::Response object
+puts res.body
 ```
 
 or
@@ -43,12 +43,23 @@ include Fetch::API
 res = fetch('https://example.com')
 ```
 
-Supported options are as follows:
+Options for `fetch` method:
 
 - `method`: HTTP method (default: `'GET'`)
 - `headers`: Request headers (default: `{}`)
 - `body`: Request body (default: `nil`)
 - `redirect`: Follow redirects (one of `follow`, `error`, `manual`, default: `follow`)
+
+Methods of `Fetch::Response` object:
+
+- `body`: Response body (String)
+- `headers`: Response headers
+- `ok`: Whether the response was successful or not (status code is in the range 200-299)
+- `redirected`: Whether the response is the result of a redirect
+- `status`: Status code (e.g. `200`, `404`)
+- `status_text`: Status text (e.g. `'OK'`, `'Not Found'`)
+- `url`: Response URL
+- `json(**args)`: An object that parses the response body as JSON. The arguments are passed to `JSON.parse`
 
 ### Post JSON
 
