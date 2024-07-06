@@ -46,7 +46,7 @@ res = fetch('https://example.com')
 Options for `fetch` method:
 
 - `method`: HTTP method (default: `:get`)
-- `headers`: Request headers (default: `{}`)
+- `headers`: Request headers (default: `[]`)
 - `body`: Request body (default: `nil`)
 - `redirect`: Follow redirects (one of `:follow`, `:error`, `:manual`, default: `:follow`)
 
