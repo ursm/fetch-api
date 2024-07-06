@@ -3,48 +3,49 @@ module Fetch
     include Enumerable
 
     def initialize(init = [])
-      @entries = []
+      @data = {}
 
       init.each do |k, v|
         append k, v
       end
     end
 
-    attr_reader :entries
-
     def append(key, value)
-      @entries << [key.to_s.downcase, value]
+      (@data[key.to_s.downcase] ||= []) << value
     end
 
     def delete(key)
-      @entries.delete_if {|k,| k == key.to_s.downcase }
+      @data.delete key.to_s.downcase
+    end
+
+    def entries
+      @data.map {|k, vs| [k, vs.join(', ')] }
     end
 
     def get(key)
-      @entries.select {|k,| k == key.to_s.downcase }.map(&:last).join(', ')
+      @data[key.to_s.downcase]&.join(', ')
     end
 
     def has(key)
-      @entries.any? {|k,| k == key.to_s.downcase }
+      @data.key?(key.to_s.downcase)
     end
 
     def keys
-      @entries.map(&:first)
+      @data.keys
     end
 
     def set(key, value)
-      delete key
-      append key, value
+      @data[key.to_s.downcase] = [value]
     end
 
     def values
-      @entries.map(&:last)
+      @data.values.map { _1.join(', ') }
     end
 
     def each(&block)
       return enum_for(:each) unless block_given?
 
-      @entries.each(&block)
+      entries.each(&block)
     end
   end
 end
