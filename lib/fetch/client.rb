@@ -13,7 +13,7 @@ module Fetch
   class Client
     include Singleton
 
-    def fetch(resource, method: :get, headers: [], body: nil, redirect: 'follow', _redirected: false)
+    def fetch(resource, method: :get, headers: [], body: nil, redirect: :follow, _redirected: false)
       uri = URI.parse(resource)
       req = Net::HTTP.const_get(method.capitalize).new(uri)
 
