@@ -4,12 +4,11 @@ RSpec.describe Fetch::Headers do
   example 'append' do
     headers = Fetch::Headers.new
 
-    headers.append :foo, 'bar'
-    headers.append :foo, 'baz'
+    headers.append :foo,  'bar'
+    headers.append 'Foo', 'baz'
 
     expect(headers.entries).to eq([
-      ['foo', 'bar'],
-      ['foo', 'baz']
+      ['foo', 'bar, baz'],
     ])
   end
 
@@ -36,6 +35,7 @@ RSpec.describe Fetch::Headers do
 
     expect(headers.get(:foo)).to eq('bar')
     expect(headers.get(:baz)).to eq('qux, quux')
+    expect(headers.get(:foobar)).to eq(nil)
   end
 
   example 'has' do
@@ -52,7 +52,7 @@ RSpec.describe Fetch::Headers do
       [:baz, 'quux']
     ])
 
-    expect(headers.keys).to eq(%w[foo baz baz])
+    expect(headers.keys).to eq(%w[foo baz])
   end
 
   example 'set' do
@@ -77,7 +77,7 @@ RSpec.describe Fetch::Headers do
       [:baz, 'quux']
     ])
 
-    expect(headers.values).to eq(%w[bar qux quux])
+    expect(headers.values).to eq(['bar', 'qux, quux'])
   end
 
   example 'each' do
@@ -89,8 +89,7 @@ RSpec.describe Fetch::Headers do
 
     expect(headers.to_a).to eq([
       ['foo', 'bar'],
-      ['baz', 'qux'],
-      ['baz', 'quux']
+      ['baz', 'qux, quux']
     ])
   end
 end
