@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     fetch-api (0.1.0)
+      marcel
       net-http
       rack
       singleton
@@ -18,6 +19,7 @@ GEM
       rexml
     diff-lcs (1.5.1)
     hashdiff (1.1.0)
+    marcel (1.0.4)
     net-http (0.4.1)
       uri
     public_suffix (6.0.0)
