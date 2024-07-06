@@ -1,4 +1,4 @@
-# Fetch API
+# Fetch API for Ruby
 
 Ruby's Net::HTTP is very powerful, but has a complicated API. OpenURI is easy to use, but has limited functionality. Third-party HTTP clients each have different APIs, and it can sometimes be difficult to learn how to use them.
 
@@ -33,6 +33,8 @@ res = Fetch::API.fetch('https://example.com')
 puts res.body
 ```
 
+or
+
 ``` ruby
 require 'fetch-api'
 
@@ -40,6 +42,13 @@ include Fetch::API
 
 res = fetch('https://example.com')
 ```
+
+Supported options are as follows:
+
+- `method`: HTTP method (default: `'GET'`)
+- `headers`: HTTP headers (default: `{}`)
+- `body`: HTTP body (default: `nil`)
+- `redirect`: Follow redirects (one of `follow`, `error`, `manual`, default: `follow`)
 
 ### Post JSON
 
