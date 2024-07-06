@@ -1,7 +1,9 @@
 require_relative '../fetch'
+require_relative 'form_data'
+require_relative 'url_search_params'
 
+require 'marcel'
 require 'net/http'
-require 'net/https'
 require 'rack/response'
 require 'singleton'
 require 'uri'
@@ -18,7 +20,25 @@ module Fetch
         req[k] = v
       end
 
-      req.body = body
+      case body
+      when FormData
+        req.set_form body.entries.map {|k, v|
+          if v.is_a?(File)
+            [k, v, {
+              filename:     File.basename(v.path),
+              content_type: Marcel::MimeType.for(v) || 'application/octet-stream'
+            }]
+          else
+            [k, v]
+          end
+        }, 'multipart/form-data'
+      when URLSearchParams
+        req['Content-Type'] ||= 'application/x-www-form-urlencoded'
+
+        req.body = body.to_s
+      else
+        req.body = body
+      end
 
       http = Net::HTTP.new(uri.hostname, uri.port)
       http.use_ssl = uri.scheme == 'https'
@@ -29,9 +49,9 @@ module Fetch
       when Net::HTTPRedirection
         case redirect
         when 'follow'
-          fetch(res['location'], method:, headers:, body:, redirect:)
+          fetch(res['Location'], method:, headers:, body:, redirect:)
         when 'error'
-          raise RedirectError, "redirected to #{res['location']}"
+          raise RedirectError, "redirected to #{res['Location']}"
         when 'manual'
           to_rack_response(res)
         else

@@ -30,7 +30,7 @@ require 'fetch-api'
 res = Fetch::API.fetch('https://example.com')
 
 # res is a Rack::Response object
-puts res.body
+puts res.body.first
 ```
 
 or
@@ -46,8 +46,8 @@ res = fetch('https://example.com')
 Supported options are as follows:
 
 - `method`: HTTP method (default: `'GET'`)
-- `headers`: HTTP headers (default: `{}`)
-- `body`: HTTP body (default: `nil`)
+- `headers`: Request headers (default: `{}`)
+- `body`: Request body (default: `nil`)
 - `redirect`: Follow redirects (one of `follow`, `error`, `manual`, default: `follow`)
 
 ### Post JSON
@@ -66,23 +66,30 @@ res = fetch('http://example.com', **{
 })
 ```
 
-### Post Form
+### Post application/x-www-form-urlencoded
 
 ``` ruby
 res = fetch('http://example.com', **{
   method: 'POST',
 
-  headers: {
-    'Content-Type' => 'multipart/form-data'
-  },
-
-  body: Rack::Multipart.build_multipart(
-    file: Rack::Multipart::UploadedFile.new(io: StringIO.new('foo'), filename: 'foo.txt')
+  body: Fetch::URLSearchParams.new(
+    name: 'Alice'
   )
 })
 ```
 
-Note: `Rack::Multipart.build_multipart` returns nil if the parameter does not include UploadedFile.
+### Post multipart/form-data
+
+``` ruby
+res = fetch('http://example.com', **{
+  method: 'POST',
+
+  body: Fetch::FormData.build(
+    name: 'Alice',
+    file: File.open('path/to/file.txt')
+  )
+})
+```
 
 ## Development
 
