@@ -33,7 +33,7 @@ RSpec.describe Fetch::API do
     stub_request :post, 'http://example.com'
 
     fetch 'http://example.com', **{
-      method: 'POST',
+      method: :post,
 
       headers: {
         'Content-Type' => 'application/json'
@@ -53,11 +53,11 @@ RSpec.describe Fetch::API do
     )
   end
 
-  example 'post form' do
+  example 'post urlencoded' do
     stub_request :post, 'http://example.com'
 
     fetch 'http://example.com', **{
-      method: 'POST',
+      method: :post,
       body:   Fetch::URLSearchParams.new(name: 'Alice')
     }
 
@@ -75,7 +75,7 @@ RSpec.describe Fetch::API do
 
     File.open 'spec/fixtures/files/foo.txt' do |f|
       fetch 'http://example.com', **{
-        method: 'POST',
+        method: :post,
 
         headers: {
           'Content-Type' => 'multipart/form-data'
@@ -104,7 +104,7 @@ RSpec.describe Fetch::API do
 
     stub_request :get, 'http://example.com/redirected'
 
-    res = fetch('http://example.com', redirect: 'follow')
+    res = fetch('http://example.com', redirect: :follow)
 
     expect(res.status).to eq(200)
     expect(res.redirected).to eq(true)
@@ -118,7 +118,7 @@ RSpec.describe Fetch::API do
     })
 
     expect {
-      fetch 'http://example.com', redirect: 'error'
+      fetch 'http://example.com', redirect: :error
     }.to raise_error(Fetch::RedirectError)
   end
 
@@ -127,7 +127,7 @@ RSpec.describe Fetch::API do
       'Location' => 'http://example.com/redirected'
     })
 
-    res = fetch('http://example.com', redirect: 'manual')
+    res = fetch('http://example.com', redirect: :manual)
 
     expect(res.status).to eq(302)
     expect(res.redirected).to eq(false)
