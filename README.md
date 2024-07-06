@@ -45,10 +45,10 @@ res = fetch('https://example.com')
 
 Options for `fetch` method:
 
-- `method`: HTTP method (default: `'GET'`)
+- `method`: HTTP method (default: `:get`)
 - `headers`: Request headers (default: `{}`)
 - `body`: Request body (default: `nil`)
-- `redirect`: Follow redirects (one of `'follow'`, `'error'`, `'manual'`, default: `'follow'`)
+- `redirect`: Follow redirects (one of `:follow`, `:error`, `:manual`, default: `:follow`)
 
 Methods of `Fetch::Response` object:
 
@@ -65,7 +65,7 @@ Methods of `Fetch::Response` object:
 
 ``` ruby
 res = fetch('http://example.com', **{
-  method: 'POST',
+  method: :post,
 
   headers: {
     'Content-Type' => 'application/json'
@@ -81,7 +81,7 @@ res = fetch('http://example.com', **{
 
 ``` ruby
 res = fetch('http://example.com', **{
-  method: 'POST',
+  method: :post,
 
   body: Fetch::URLSearchParams.new(
     name: 'Alice'
@@ -93,7 +93,7 @@ res = fetch('http://example.com', **{
 
 ``` ruby
 res = fetch('http://example.com', **{
-  method: 'POST',
+  method: :post,
 
   body: Fetch::FormData.build(
     name: 'Alice',
