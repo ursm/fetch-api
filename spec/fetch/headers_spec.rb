@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Fetch::Headers do
-  example 'append' do
+  example '#append' do
     headers = Fetch::Headers.new
 
     headers.append :foo,  'bar'
@@ -12,7 +12,7 @@ RSpec.describe Fetch::Headers do
     ])
   end
 
-  example 'delete' do
+  example '#delete' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
@@ -26,7 +26,7 @@ RSpec.describe Fetch::Headers do
     ])
   end
 
-  example 'get' do
+  example '#get' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
@@ -38,14 +38,14 @@ RSpec.describe Fetch::Headers do
     expect(headers.get(:foobar)).to eq(nil)
   end
 
-  example 'has' do
+  example '#has' do
     headers = Fetch::Headers.new(foo: 'bar')
 
     expect(headers.has(:foo)).to eq(true)
     expect(headers.has(:bar)).to eq(false)
   end
 
-  example 'keys' do
+  example '#keys' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
@@ -55,7 +55,7 @@ RSpec.describe Fetch::Headers do
     expect(headers.keys).to eq(%w[foo baz])
   end
 
-  example 'set' do
+  example '#set' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
@@ -70,7 +70,7 @@ RSpec.describe Fetch::Headers do
     ])
   end
 
-  example 'values' do
+  example '#values' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
@@ -80,7 +80,7 @@ RSpec.describe Fetch::Headers do
     expect(headers.values).to eq(['bar', 'qux, quux'])
   end
 
-  example 'each' do
+  example '#each' do
     headers = Fetch::Headers.new([
       [:foo, 'bar'],
       [:baz, 'qux'],
