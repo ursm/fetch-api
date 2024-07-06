@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fetch-api (0.1.0)
+    fetch-api (0.2.0)
       marcel
       net-http
       rack
