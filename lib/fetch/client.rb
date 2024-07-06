@@ -1,4 +1,4 @@
-require_relative '../fetch'
+require_relative 'errors'
 require_relative 'form_data'
 require_relative 'headers'
 require_relative 'response'
