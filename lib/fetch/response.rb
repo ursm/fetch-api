@@ -11,8 +11,8 @@ module Fetch
       Rack::Utils::HTTP_STATUS_CODES[status]
     end
 
-    def json(**opts)
-      JSON.parse(body, **opts)
+    def json(...)
+      JSON.parse(body, ...)
     end
   }
 end
