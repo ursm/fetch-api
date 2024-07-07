@@ -6,6 +6,7 @@ require_relative 'url_search_params'
 
 require 'mini_mime'
 require 'net/http'
+require 'net/https'
 require 'singleton'
 require 'uri'
 
