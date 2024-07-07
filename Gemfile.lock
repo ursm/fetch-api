@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fetch-api (0.3.3)
-      marcel
+      mini_mime
       net-http
       rack
       singleton
@@ -12,7 +12,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.5.1)
-    marcel (1.0.4)
+    mini_mime (1.1.5)
     net-http (0.4.1)
       uri
     rack (3.1.6)
