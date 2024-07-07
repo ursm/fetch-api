@@ -4,35 +4,21 @@ RSpec.describe Fetch::API do
   include Fetch::API
 
   example 'simple get' do
-    stub_request(:get, 'http://example.com').to_return(
-      headers: {
-        'Content-Type' => 'text/plain'
-      },
+    res = fetch('http://localhost:4423')
 
-      body: 'Hello, world!'
-    )
-
-    res = fetch('http://example.com')
-
-    expect(res.url).to eq('http://example.com')
+    expect(res.url).to eq('http://localhost:4423')
     expect(res.status).to eq(200)
-    expect(res.headers.to_h).to eq('content-type' => 'text/plain')
-    expect(res.body).to eq('Hello, world!')
+    expect(res.headers.to_h).to include('content-type' => 'application/json')
     expect(res.redirected).to eq(false)
-  end
 
-  example 'https' do
-    stub_request :get, 'https://example.com'
-
-    res = fetch('https://example.com')
-
-    expect(res.status).to eq(200)
+    expect(res.json(symbolize_names: true)).to include(
+      method: 'GET',
+      body:   ''
+    )
   end
 
   example 'post JSON' do
-    stub_request :post, 'http://example.com'
-
-    fetch 'http://example.com', **{
+    res = fetch('http://localhost:4423', **{
       method: :post,
 
       headers: {
@@ -42,39 +28,41 @@ RSpec.describe Fetch::API do
       body: {
         name: 'Alice'
       }.to_json
-    }
+    })
 
-    expect(WebMock).to have_requested(:post, 'http://example.com').with(
-      headers: {
-        'Content-Type' => 'application/json'
-      },
+    expect(res.json(symbolize_names: true)).to match(
+      method: 'POST',
+
+      headers: include(
+        'content-type': 'application/json'
+      ),
 
       body: '{"name":"Alice"}'
     )
   end
 
   example 'post urlencoded' do
-    stub_request :post, 'http://example.com'
-
-    fetch 'http://example.com', **{
+    res = fetch('http://localhost:4423', **{
       method: :post,
       body:   Fetch::URLSearchParams.new(name: 'Alice')
-    }
+    })
 
-    expect(WebMock).to have_requested(:post, 'http://example.com').with(
-      headers: {
-        'Content-Type' => 'application/x-www-form-urlencoded'
-      },
+    expect(res.json(symbolize_names: true)).to match(
+      method: 'POST',
+
+      headers: include(
+        'content-type': 'application/x-www-form-urlencoded'
+      ),
 
       body: 'name=Alice'
     )
   end
 
   example 'post multipart' do
-    stub_request :post, 'http://example.com'
+    res = nil
 
     File.open 'spec/fixtures/files/foo.txt' do |f|
-      fetch 'http://example.com', **{
+      res = fetch('http://localhost:4423', **{
         method: :post,
 
         headers: {
@@ -85,51 +73,48 @@ RSpec.describe Fetch::API do
           name: 'Alice',
           file: f
         )
-      }
+      })
     end
 
-    expect(WebMock).to have_requested(:post, 'http://example.com').with(
-      headers: {
-        'Content-Type' => 'multipart/form-data'
-      }
-    )
+    expect(res.json(symbolize_names: true)).to match(
+      method: 'POST',
 
-    # The request body should be sent correctly, but with webmock, the body becomes nil.
+      headers: include(
+        'content-type': start_with('multipart/form-data; boundary=')
+      ),
+
+      body: include(<<~NAME.gsub("\n", "\r\n"), <<~FILE.gsub("\n", "\r\n"))
+        Content-Disposition: form-data; name="name"
+
+        Alice
+      NAME
+        Content-Disposition: form-data; name="file"; filename="foo.txt"
+        Content-Type: application/octet-stream
+
+        bar
+      FILE
+    )
   end
 
   example 'redirect: follow' do
-    stub_request(:get, 'http://example.com').to_return(status: 302, headers: {
-      'Location' => 'http://example.com/redirected'
-    })
-
-    stub_request :get, 'http://example.com/redirected'
-
-    res = fetch('http://example.com', redirect: :follow)
+    res = fetch('http://localhost:4423/redirect', redirect: :follow)
 
     expect(res.status).to eq(200)
     expect(res.redirected).to eq(true)
-
-    expect(WebMock).to have_requested(:get, 'http://example.com/redirected')
+    expect(res.url).to eq('http://localhost:4423/redirected')
   end
 
   example 'redirect: error' do
-    stub_request(:get, 'http://example.com').to_return(status: 302, headers: {
-      'Location' => 'http://example.com/redirected'
-    })
-
     expect {
-      fetch 'http://example.com', redirect: :error
+      fetch 'http://localhost:4423/redirect', redirect: :error
     }.to raise_error(Fetch::RedirectError)
   end
 
   example 'redirect: manual' do
-    stub_request(:get, 'http://example.com').to_return(status: 302, headers: {
-      'Location' => 'http://example.com/redirected'
-    })
-
-    res = fetch('http://example.com', redirect: :manual)
+    res = fetch('http://localhost:4423/redirect', redirect: :manual)
 
     expect(res.status).to eq(302)
     expect(res.redirected).to eq(false)
+    expect(res.url).to eq('http://localhost:4423/redirect')
   end
 end
