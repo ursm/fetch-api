@@ -25,7 +25,7 @@ module Fetch
     attr_reader :entries
 
     def append(key, value)
-      @entries.push [key.to_s, value.is_a?(File) ? value : value.to_s]
+      @entries.push [key.to_s, File === value ? value : value.to_s]
     end
 
     def delete(key)

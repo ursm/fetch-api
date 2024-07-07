@@ -1,24 +1,24 @@
 module Fetch
   class FormData
-    type value = String | File
-
-    include Enumerable[[String, value]]
+    include Enumerable[[String, String | File]]
 
     extend Forwardable
 
-    attr_reader entries: Array[[String, value]]
+    attr_reader entries: Array[[String, String | File]]
 
-    def self.build: (Enumerable[[Object, Object]]) -> FormData
+    def self.build: (_Each[[_ToS, _ToS | File]]) -> FormData
 
     def initialize: () -> void
-    def append: (Object, Object) -> void
-    def delete: (Object) -> void
-    def get: (Object) -> value?
-    def get_all: (Object) -> Array[value]
-    def has: (Object) -> bool
+    def append: (_ToS, _ToS | File) -> void
+    def delete: (_ToS) -> void
+    def get: (_ToS) -> (String | File)?
+    def get_all: (_ToS) -> Array[String | File]
+    def has: (_ToS) -> bool
     def keys: -> Array[String]
-    def set: (Object, Object) -> void
-    def values: () -> Array[value]
-    def each: () { ([String, value]) -> void } -> Array[[String, value]]
+    def set: (_ToS, _ToS | File) -> void
+    def values: () -> Array[String | File]
+
+    def each: () { ([String, String | File]) -> void } -> Array[[String, String | File]]
+            | () -> Enumerator[[String, String | File], Array[[String, String | File]]]
   end
 end

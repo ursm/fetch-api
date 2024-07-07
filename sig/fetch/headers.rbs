@@ -4,15 +4,17 @@ module Fetch
 
     extend Forwardable
 
-    def initialize: (Enumerable[[Object, Object]]) -> void
-    def append: (Object, Object) -> void
-    def delete: (Object) -> void
+    def initialize: (_Each[[_ToS, _ToS]]) -> void
+    def append: (_ToS, _ToS) -> void
+    def delete: (_ToS) -> void
     def entries: () -> Array[[String, String]]
-    def get: (Object) -> String?
-    def has: (Object) -> bool
+    def get: (_ToS) -> String?
+    def has: (_ToS) -> bool
     def keys: -> Array[String]
-    def set: (Object, Object) -> void
+    def set: (_ToS, _ToS) -> void
     def values: () -> Array[String]
+
     def each: () { ([String, String]) -> void } -> Array[[String, String]]
+            | () -> Enumerator[[String, String], Array[[String, String]]]
   end
 end

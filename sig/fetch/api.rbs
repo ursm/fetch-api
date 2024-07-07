@@ -1,9 +1,9 @@
 module Fetch
   class API
     def self?.fetch: (
-      _StringLike,
+      string,
       ?method: String | Symbol,
-      ?headers: Enumerable[[Object, Object]],
+      ?headers: _Each[[_ToS, _ToS]],
       ?body: (String | FormData | URLSearchParams)?,
       ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
     ) -> Response

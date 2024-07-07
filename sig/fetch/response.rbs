@@ -11,6 +11,6 @@ module Fetch
     def initialize: (url: String, status: Integer, headers: Headers, body: String?, redirected: bool) -> void
     def ok: () -> bool
     def status_text: () -> String
-    def json: (json_options) -> Object?
+    def json: (json_options) -> untyped
   end
 end
