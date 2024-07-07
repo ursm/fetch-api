@@ -28,7 +28,7 @@ module Fetch
           if v.is_a?(File)
             [k, v, {
               filename:     File.basename(v.path),
-              content_type: MiniMime.lookup_by_filename(v.path)&.content_type || 'application/octet-stream' # steep:ignore UnknownConstant
+              content_type: MiniMime.lookup_by_filename(v.path)&.content_type || 'application/octet-stream'
             }]
           else
             [k, v]
