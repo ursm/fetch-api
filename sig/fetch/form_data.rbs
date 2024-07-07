@@ -4,6 +4,8 @@ module Fetch
 
     include Enumerable[[String, value]]
 
+    extend Forwardable
+
     attr_reader entries: Array[[String, value]]
 
     def self.build: (Enumerable[[Object, Object]]) -> FormData

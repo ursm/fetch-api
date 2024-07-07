@@ -1,6 +1,12 @@
+require 'forwardable'
+
 module Fetch
   class FormData
     include Enumerable
+
+    extend Forwardable
+
+    def_delegators :entries, :each
 
     def self.build(enumerable)
       data = FormData.new
@@ -49,10 +55,6 @@ module Fetch
 
     def values
       @entries.map(&:last)
-    end
-
-    def each(&)
-      @entries.each(&)
     end
   end
 end

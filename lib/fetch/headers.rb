@@ -1,6 +1,12 @@
+require 'forwardable'
+
 module Fetch
   class Headers
     include Enumerable
+
+    extend Forwardable
+
+    def_delegators :entries, :each
 
     def initialize(init = [])
       @data = {}
@@ -40,10 +46,6 @@ module Fetch
 
     def values
       @data.values.map { _1.join(', ') }
-    end
-
-    def each(&)
-      entries.each(&)
     end
   end
 end

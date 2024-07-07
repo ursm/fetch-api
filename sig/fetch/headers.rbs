@@ -2,6 +2,8 @@ module Fetch
   class Headers
     include Enumerable[[String, String]]
 
+    extend Forwardable
+
     def initialize: (Enumerable[[Object, Object]]) -> void
     def append: (Object, Object) -> void
     def delete: (Object) -> void

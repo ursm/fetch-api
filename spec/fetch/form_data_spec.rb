@@ -108,6 +108,8 @@ RSpec.describe Fetch::FormData do
     data.append 'foo', 'bar'
     data.append 'foo', 'baz'
 
+    expect(data.each).to be_a(Enumerator)
+
     expect(data.to_a).to eq([
       ['foo', 'bar'],
       ['foo', 'baz']

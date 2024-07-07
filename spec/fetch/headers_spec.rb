@@ -87,6 +87,8 @@ RSpec.describe Fetch::Headers do
       [:baz, 'quux']
     ])
 
+    expect(headers.each).to be_a(Enumerator)
+
     expect(headers.to_a).to eq([
       ['foo', 'bar'],
       ['baz', 'qux, quux']

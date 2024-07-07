@@ -10,9 +10,5 @@ module Fetch
       ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
       ?_redirected: bool
     ) -> Response
-
-    private
-
-    def to_response: (_StringLike, Net::HTTPResponse, bool) -> Response
   end
 end

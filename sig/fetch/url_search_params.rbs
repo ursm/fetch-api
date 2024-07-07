@@ -2,6 +2,8 @@ module Fetch
   class URLSearchParams
     include Enumerable[[String, String]]
 
+    extend Forwardable
+
     attr_reader entries: Array[[String, String]]
 
     def self.build: (Enumerable[[Object, Object]]) -> FormData

@@ -1,8 +1,13 @@
+require 'forwardable'
 require 'uri'
 
 module Fetch
   class URLSearchParams
     include Enumerable
+
+    extend Forwardable
+
+    def_delegators :entries, :each
 
     def initialize(options = [])
       @entries = []
@@ -60,10 +65,6 @@ module Fetch
 
     def values
       @entries.map(&:last)
-    end
-
-    def each(&)
-      @entries.each(&)
     end
   end
 end
