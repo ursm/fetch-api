@@ -16,7 +16,7 @@ jobs:
           bundler-cache: true
 
       - run: rbs collection install
-      - run: bundle exec rake rbs:validate
+      - run: bundle exec rake rbs
 
   steep:
     runs-on: ubuntu-latest
@@ -30,4 +30,4 @@ jobs:
           bundler-cache: true
 
       - run: rbs collection install
-      - run: bundle exec rake steep:check
+      - run: bundle exec rake steep

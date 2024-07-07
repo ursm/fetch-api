@@ -1,18 +1,12 @@
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
+require 'steep/rake_task'
 
 RSpec::Core::RakeTask.new :spec
+Steep::RakeTask.new :steep
 
-namespace :rbs do
-  task :validate do
-    sh 'bundle exec rbs -I sig validate'
-  end
+task :rbs do
+  sh 'bundle exec rbs -I sig validate'
 end
 
-namespace :steep do
-  task :check do
-    sh 'bundle exec steep check'
-  end
-end
-
-task default: %i(spec rbs:validate steep:check)
+task default: %i(spec rbs steep)
