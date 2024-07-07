@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fetch-api (0.3.3)
+    fetch-api (0.3.4)
       mini_mime
       net-http
       rack
