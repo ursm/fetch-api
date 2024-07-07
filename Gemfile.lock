@@ -48,6 +48,7 @@ DEPENDENCIES
   rackup
   rake
   rspec
+  webrick
 
 BUNDLED WITH
    2.5.14

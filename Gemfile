@@ -5,3 +5,4 @@ gemspec
 gem 'rackup'
 gem 'rake'
 gem 'rspec'
+gem 'webrick'
