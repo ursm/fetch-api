@@ -1,0 +1,20 @@
+module Fetch
+  class URLSearchParams
+    include Enumerable[[String, String]]
+
+    attr_reader entries: Array[[String, String]]
+
+    def self.build: (Enumerable[[Object, Object]]) -> FormData
+
+    def initialize: (String | Enumerable[[Object, Object]]) -> void
+    def append: (Object, Object) -> void
+    def delete: (Object) -> void
+    def get: (Object) -> String?
+    def get_all: (Object) -> Array[String]
+    def has: (Object) -> bool
+    def keys: -> Array[String]
+    def set: (Object, Object) -> void
+    def values: () -> Array[String]
+    def each: () { ([String, String]) -> void } -> Array[[String, String]]
+  end
+end

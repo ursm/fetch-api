@@ -1,0 +1,33 @@
+name: Typing
+
+on:
+  push:
+
+jobs:
+  rbs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.3
+          bundler-cache: true
+
+      - run: rbs collection install
+      - run: bundle exec rbs -I sig validate
+
+  steep:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.3
+          bundler-cache: true
+
+      - run: rbs collection install
+      - run: bundle exec steep check

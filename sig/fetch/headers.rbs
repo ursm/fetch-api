@@ -1,0 +1,16 @@
+module Fetch
+  class Headers
+    include Enumerable[[String, String]]
+
+    def initialize: (Enumerable[[Object, Object]]) -> void
+    def append: (Object, Object) -> void
+    def delete: (Object) -> void
+    def entries: () -> Array[[String, String]]
+    def get: (Object) -> String?
+    def has: (Object) -> bool
+    def keys: -> Array[String]
+    def set: (Object, Object) -> void
+    def values: () -> Array[String]
+    def each: () { ([String, String]) -> void } -> Array[[String, String]]
+  end
+end

@@ -1,0 +1,18 @@
+module Fetch
+  class Client
+    include Singleton
+
+    def fetch: (
+      _StringLike,
+      ?method: String | Symbol,
+      ?headers: Enumerable[[Object, Object]],
+      ?body: (String | FormData | URLSearchParams)?,
+      ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
+      ?_redirected: bool
+    ) -> Response
+
+    private
+
+    def to_response: (_StringLike, Net::HTTPResponse, bool) -> Response
+  end
+end

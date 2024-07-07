@@ -1,0 +1,16 @@
+module Fetch
+  class Response
+    include Data::_DataClass
+
+    attr_reader url: String
+    attr_reader status: Integer
+    attr_reader headers: Headers
+    attr_reader body: String?
+    attr_reader redirected: bool
+
+    def initialize: (url: String, status: Integer, headers: Headers, body: String?, redirected: bool) -> void
+    def ok: () -> bool
+    def status_text: () -> String
+    def json: (json_options) -> Object?
+  end
+end
