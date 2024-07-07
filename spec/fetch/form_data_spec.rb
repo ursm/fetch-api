@@ -20,7 +20,7 @@ RSpec.describe Fetch::FormData do
       ['foo', 'bar']
     ])
 
-    data.append 'foo', 'baz'
+    data.append :foo, 'baz'
 
     expect(data.entries).to eq([
       ['foo', 'bar'],
@@ -68,7 +68,7 @@ RSpec.describe Fetch::FormData do
     data.append 'foo', 'bar'
 
     expect(data.has('foo')).to be_truthy
-    expect(data.has('qux')).to be_falsey
+    expect(data.has('baz')).to be_falsey
   end
 
   example '#keys' do
@@ -85,12 +85,10 @@ RSpec.describe Fetch::FormData do
     data = Fetch::FormData.new
 
     data.append 'foo', 'bar'
-    data.append 'foo', 'baz'
-
-    data.set 'foo', 'qux'
+    data.set    'foo', 'baz'
 
     expect(data.entries).to eq([
-      ['foo', 'qux']
+      ['foo', 'baz']
     ])
   end
 

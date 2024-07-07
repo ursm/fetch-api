@@ -1,6 +1,10 @@
+require_relative 'symbol_to_str'
+
 module Fetch
   class FormData
     include Enumerable
+
+    using SymbolToStr
 
     def self.build(enumerable)
       data = FormData.new
@@ -19,23 +23,23 @@ module Fetch
     attr_reader :entries
 
     def append(key, value)
-      @entries.push [key.to_s, value]
+      @entries.push [key.to_str, value]
     end
 
     def delete(key)
-      @entries.reject! {|k,| k == key.to_s }
+      @entries.reject! {|k,| k == key.to_str }
     end
 
     def get(key)
-      @entries.assoc(key.to_s)&.last
+      @entries.assoc(key.to_str)&.last
     end
 
     def get_all(key)
-      @entries.select {|k,| k == key.to_s }.map(&:last)
+      @entries.select {|k,| k == key.to_str }.map(&:last)
     end
 
     def has(key)
-      @entries.any? {|k,| k == key.to_s }
+      @entries.any? {|k,| k == key.to_str }
     end
 
     def keys
