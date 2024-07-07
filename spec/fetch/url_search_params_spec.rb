@@ -43,7 +43,7 @@ RSpec.describe Fetch::URLSearchParams do
       ['foo', 'bar']
     ])
 
-    data.append 'foo', 'baz'
+    data.append :foo, 'baz'
 
     expect(data.entries).to eq([
       ['foo', 'bar'],
