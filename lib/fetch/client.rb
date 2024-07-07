@@ -23,7 +23,7 @@ module Fetch
 
       case body
       when FormData
-        req.set_form body.entries.map {|k, v|
+        req.set_form body.map {|k, v|
           if v.is_a?(File)
             [k, v, {
               filename:     File.basename(v.path),
@@ -34,9 +34,7 @@ module Fetch
           end
         }, 'multipart/form-data'
       when URLSearchParams
-        req['Content-Type'] ||= 'application/x-www-form-urlencoded'
-
-        req.body = body.to_s
+        req.set_form_data body.entries
       else
         req.body = body
       end

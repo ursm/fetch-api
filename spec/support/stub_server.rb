@@ -14,7 +14,7 @@ app = -> (env) {
 
   case req.path
   when '/redirect'
-    [302, {'Location' => '/redirected'}, []]
+    [302, {'Location' => "#{req.scheme}://#{req.host_with_port}/redirected"}, []]
   else
     [
       200,

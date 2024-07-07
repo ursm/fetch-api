@@ -63,8 +63,6 @@ module Fetch
     end
 
     def each(&block)
-      return enum_for(:each) unless block_given?
-
       @entries.each(&block)
     end
   end
