@@ -89,7 +89,7 @@ RSpec.describe Fetch::API do
         Alice
       NAME
         Content-Disposition: form-data; name="file"; filename="foo.txt"
-        Content-Type: application/octet-stream
+        Content-Type: text/plain
 
         bar
       FILE
