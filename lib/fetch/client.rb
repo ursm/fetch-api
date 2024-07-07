@@ -27,7 +27,7 @@ module Fetch
           if v.is_a?(File)
             [k, v, {
               filename:     File.basename(v.path),
-              content_type: Marcel::MimeType.for(v) || 'application/octet-stream'
+              content_type: Marcel::MimeType.for(name: v.path)
             }]
           else
             [k, v]
