@@ -46,8 +46,8 @@ module Fetch
       @data.values.map { _1.join(', ') }
     end
 
-    def each(&block)
-      entries.each(&block)
+    def each(&)
+      entries.each(&)
     end
   end
 end

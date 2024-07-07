@@ -66,8 +66,8 @@ module Fetch
       @entries.map(&:last)
     end
 
-    def each(&block)
-      @entries.each(&block)
+    def each(&)
+      @entries.each(&)
     end
   end
 end
