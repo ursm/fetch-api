@@ -4,7 +4,7 @@ require_relative 'headers'
 require_relative 'response'
 require_relative 'url_search_params'
 
-require 'marcel'
+require 'mini_mime'
 require 'net/http'
 require 'singleton'
 require 'uri'
@@ -27,7 +27,7 @@ module Fetch
           if v.is_a?(File)
             [k, v, {
               filename:     File.basename(v.path),
-              content_type: Marcel::MimeType.for(name: v.path)
+              content_type: MiniMime.lookup_by_filename(v.path)&.content_type || 'application/octet-stream'
             }]
           else
             [k, v]
