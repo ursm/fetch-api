@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{\Aexe/}) { File.basename(_1) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'json'
   spec.add_dependency 'mini_mime'
   spec.add_dependency 'net-http'
   spec.add_dependency 'rack'

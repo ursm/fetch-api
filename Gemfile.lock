@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     fetch-api (0.3.4)
+      json
       mini_mime
       net-http
       rack
@@ -12,6 +13,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.5.1)
+    json (2.7.2)
     mini_mime (1.1.5)
     net-http (0.4.1)
       uri
