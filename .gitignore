@@ -1,4 +1,6 @@
+.rspec_status
 /.bundle/
+/.gem_rbs_collection/
 /.yardoc
 /_yardoc/
 /coverage/
@@ -6,6 +8,3 @@
 /pkg/
 /spec/reports/
 /tmp/
-
-# rspec failure tracking
-.rspec_status

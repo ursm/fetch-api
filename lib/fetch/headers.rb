@@ -1,10 +1,6 @@
-require_relative 'symbol_to_str'
-
 module Fetch
   class Headers
     include Enumerable
-
-    using SymbolToStr
 
     def initialize(init = [])
       @data = {}
@@ -15,11 +11,11 @@ module Fetch
     end
 
     def append(key, value)
-      (@data[key.to_str.downcase] ||= []) << value
+      (@data[key.to_s.downcase] ||= []) << value.to_s
     end
 
     def delete(key)
-      @data.delete key.to_str.downcase
+      @data.delete key.to_s.downcase
     end
 
     def entries
@@ -27,11 +23,11 @@ module Fetch
     end
 
     def get(key)
-      @data[key.to_str.downcase]&.join(', ')
+      @data[key.to_s.downcase]&.join(', ')
     end
 
     def has(key)
-      @data.key?(key.to_str.downcase)
+      @data.key?(key.to_s.downcase)
     end
 
     def keys
@@ -39,7 +35,7 @@ module Fetch
     end
 
     def set(key, value)
-      @data[key.to_str.downcase] = [value]
+      @data[key.to_s.downcase] = [value]
     end
 
     def values

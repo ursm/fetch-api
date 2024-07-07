@@ -1,0 +1,11 @@
+module Fetch
+  class API
+    def self?.fetch: (
+      _StringLike,
+      ?method: String | Symbol,
+      ?headers: Enumerable[[Object, Object]],
+      ?body: (String | FormData | URLSearchParams)?,
+      ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
+    ) -> Response
+  end
+end
