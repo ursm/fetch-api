@@ -1,3 +1,4 @@
+require_relative 'connection_pool'
 require_relative 'errors'
 require_relative 'form_data'
 require_relative 'headers'
@@ -13,6 +14,10 @@ require 'uri'
 module Fetch
   class Client
     include Singleton
+
+    def initialize
+      @pool = ConnectionPool.new
+    end
 
     def fetch(resource, method: :get, headers: [], body: nil, redirect: :follow, _redirected: false)
       uri = URI.parse(resource)
@@ -40,10 +45,7 @@ module Fetch
         req.body = body
       end
 
-      http = Net::HTTP.new(uri.hostname, uri.port) # steep:ignore ArgumentTypeMismatch
-      http.use_ssl = uri.scheme == 'https'
-
-      res = http.start { _1.request(req) }
+      res = @pool.with_connection(uri) { _1.request(req) }
 
       case res
       when Net::HTTPRedirection

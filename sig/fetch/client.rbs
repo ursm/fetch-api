@@ -10,5 +10,10 @@ module Fetch
       ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
       ?_redirected: bool
     ) -> Response
+
+    private
+
+    def initialize: () -> void
+    def to_response: (string, Net::HTTPResponse, bool) -> Response
   end
 end

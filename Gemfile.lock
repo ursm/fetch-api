@@ -107,6 +107,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activesupport
   fetch-api!
   rackup
   rake
