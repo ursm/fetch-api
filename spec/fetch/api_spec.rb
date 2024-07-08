@@ -117,4 +117,19 @@ RSpec.describe Fetch::API do
     expect(res.redirected).to eq(false)
     expect(res.url).to eq('http://localhost:4423/redirect')
   end
+
+  example 'thread safety' do
+    bodies = 10.times.map {
+      Thread.new {
+        res = fetch('http://localhost:4423', **{
+          method: :post,
+          body:   'foo'
+        })
+
+        res.json(symbolize_names: true).fetch(:body)
+      }
+    }.map(&:value)
+
+    expect(bodies).to eq(['foo'] * 10)
+  end
 end
