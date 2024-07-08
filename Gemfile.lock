@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fetch-api (0.3.5)
+    fetch-api (0.4.0)
       forwardable
       json
       mini_mime
