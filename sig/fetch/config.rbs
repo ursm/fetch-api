@@ -1,6 +1,6 @@
 module Fetch
   class Config
-    attr_accessor connection_max_idle_time: Integer
+    attr_accessor max_idle_time: Integer
     attr_accessor keep_alive_timeout: Integer
   end
 end

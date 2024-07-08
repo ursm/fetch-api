@@ -10,7 +10,7 @@ module Fetch
   end
 
   configure do |config|
-    config.connection_max_idle_time = 10
-    config.keep_alive_timeout       = 2
+    config.max_idle_time      = 10
+    config.keep_alive_timeout = 2
   end
 end

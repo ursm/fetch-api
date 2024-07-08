@@ -72,7 +72,7 @@ module Fetch
         @connections.each do |origin, entry|
           next if entry.in_use
 
-          if entry.last_used + Fetch.config.connection_max_idle_time < Time.now
+          if entry.last_used + Fetch.config.max_idle_time < Time.now
             entry.connection.finish
 
             @connections.delete origin
