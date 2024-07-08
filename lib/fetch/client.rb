@@ -67,7 +67,7 @@ module Fetch
       if pool = Thread.current.thread_variable_get(:fetch_connection_pool)
         pool
       else
-        Thread.current.thread_variable_set :fetch_connection_pool, ConnectionPool.new
+        Thread.current.thread_variable_set(:fetch_connection_pool, ConnectionPool.new)
       end
     end
 
