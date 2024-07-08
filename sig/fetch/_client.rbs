@@ -1,5 +1,0 @@
-module Fetch
-  class Client
-    def to_response: (string, Net::HTTPResponse, bool) -> Response
-  end
-end

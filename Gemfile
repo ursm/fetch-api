@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'activesupport'
 gem 'rackup'
 gem 'rake'
 gem 'rbs'

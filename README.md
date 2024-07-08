@@ -102,6 +102,19 @@ res = fetch('http://example.com', **{
 })
 ```
 
+## Connection pooling
+
+Fetch API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. Different connections are returned for different threads (in other words, Fetch API is thread-safe).
+
+These values (in seconds) can be configured as follows:
+
+``` ruby
+Fetch.configure do |config|
+  config.connection_max_idle_time = 10 # default
+  config.keep_alive_timeout       = 2  # default
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

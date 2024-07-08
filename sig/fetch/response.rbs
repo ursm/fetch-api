@@ -1,7 +1,5 @@
 module Fetch
   class Response
-    include Data::_DataClass
-
     attr_reader url: String
     attr_reader status: Integer
     attr_reader headers: Headers

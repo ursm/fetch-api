@@ -1,0 +1,21 @@
+module Fetch
+  class ConnectionPool
+    class Entry
+      attr_accessor connection: Net::HTTP
+      attr_accessor in_use: bool
+      attr_accessor last_used: Time
+
+      def initialize: (connection: Net::HTTP, in_use: bool, ?last_used: Time) -> void
+    end
+
+    def initialize: () -> void
+    def with_connection: [T] (URI::HTTP) { (Net::HTTP) -> T } -> T
+
+    private
+
+    def acquire: (URI::HTTP) -> Net::HTTP
+    def release: (URI::HTTP) -> void
+    def sweep: () -> void
+    def key: (URI::HTTP) -> String
+  end
+end
