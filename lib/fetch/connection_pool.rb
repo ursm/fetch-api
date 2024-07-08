@@ -13,7 +13,6 @@ module Fetch
       @sweeper = Thread.new {
         loop do
           sleep 1
-
           sweep
 
           Thread.stop if @connections.empty?
@@ -42,13 +41,16 @@ module Fetch
 
           entry.connection
         else
-          Net::HTTP.new(uri.host, uri.port).tap {|http| # steep:ignore ArgumentTypeMismatch
+          # @type var host: String
+          host = uri.host
+
+          Net::HTTP.new(host, uri.port).tap {|http|
             http.use_ssl            = uri.scheme == 'https'
             http.keep_alive_timeout = Fetch.config.keep_alive_timeout
 
-            @connections[uri.origin] = Entry.new(connection: http, in_use: true)
-
             http.start
+
+            @connections[uri.origin] = Entry.new(connection: http, in_use: true)
           }
         end
       }.tap {
