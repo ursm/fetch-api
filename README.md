@@ -102,11 +102,11 @@ res = fetch('http://example.com', **{
 })
 ```
 
-## Connection pooling
+### Connection pooling
 
 Fetch API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. Different connections are returned for different threads (in other words, Fetch API is thread-safe).
 
-These values (in seconds) can be configured as follows:
+These values can be configured as follows (in seconds):
 
 ``` ruby
 Fetch.configure do |config|
