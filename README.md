@@ -1,8 +1,8 @@
-# Fetch API for Ruby
+# Fetch::API
 
 Ruby's Net::HTTP is very powerful, but has a complicated API. OpenURI is easy to use, but has limited functionality. Third-party HTTP clients each have different APIs, and it can sometimes be difficult to learn how to use them.
 
-There is one HTTP client that we can all use. It is the browser's Fetch API. This is an HTTP client for Ruby that can be used in a way that is similar to the Fetch API.
+There is one HTTP client that we can all use. It is the browser's Fetch API. Fetch::API is an HTTP client for Ruby that can be used in a way that is similar to the Fetch API.
 
 This is not intended to be a complete copy of the Fetch API. For example, responses are returned synchronously rather than asynchronously, as that is more familiar behavior for Ruby programmers. It is only "like" the Fetch API.
 
@@ -104,7 +104,7 @@ res = fetch('http://example.com', **{
 
 ### Connection pooling
 
-Fetch API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. Different connections are returned for different threads (in other words, Fetch API is thread-safe).
+Fetch::API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. Different connections are returned for different threads (in other words, Fetch::API is thread-safe).
 
 These values can be configured as follows (in seconds):
 
