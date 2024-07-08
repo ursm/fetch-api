@@ -27,15 +27,4 @@ RSpec.describe Fetch::ConnectionPool do
       expect(conn1).not_to eq(conn2)
     end
   end
-
-  example 'thread safety' do
-    pool = Fetch::ConnectionPool.new
-
-    Fetch.config.with connection_max_idle_time: 10 do
-      conn1 = pool.with_connection(uri, &:itself)
-      conn2 = Thread.new { pool.with_connection(uri, &:itself) }.value
-
-      expect(conn1).not_to eq(conn2)
-    end
-  end
 end

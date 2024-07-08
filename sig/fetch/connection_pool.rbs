@@ -16,6 +16,5 @@ module Fetch
     def acquire: (URI::HTTP) -> Net::HTTP
     def release: (URI::HTTP) -> void
     def sweep: () -> void
-    def key: (URI::HTTP) -> String
   end
 end

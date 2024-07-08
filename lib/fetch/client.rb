@@ -15,10 +15,6 @@ module Fetch
   class Client
     include Singleton
 
-    def initialize
-      @pool = ConnectionPool.new
-    end
-
     def fetch(resource, method: :get, headers: [], body: nil, redirect: :follow, _redirected: false)
       uri = URI.parse(resource)
       req = Net::HTTP.const_get(method.capitalize).new(uri)
@@ -45,7 +41,8 @@ module Fetch
         req.body = body
       end
 
-      res = @pool.with_connection(uri) { _1.request(req) }
+      # @type var uri: URI::HTTP
+      res = pool.with_connection(uri) { _1.request(req) }
 
       case res
       when Net::HTTPRedirection
@@ -65,6 +62,14 @@ module Fetch
     end
 
     private
+
+    def pool
+      if pool = Thread.current.thread_variable_get(:fetch_connection_pool)
+        pool
+      else
+        Thread.current.thread_variable_set :fetch_connection_pool, ConnectionPool.new
+      end
+    end
 
     def to_response(url, res, redirected)
       Response.new(
