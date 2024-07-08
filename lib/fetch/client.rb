@@ -48,7 +48,10 @@ module Fetch
       when Net::HTTPRedirection
         case redirect.to_s
         when 'follow'
-          fetch(res['Location'], method:, headers:, body:, redirect:, _redirected: true) # steep:ignore ArgumentTypeMismatch
+          # @type var location: String
+          location = res['Location']
+
+          fetch(location, method:, headers:, body:, redirect:, _redirected: true) # steep:ignore ArgumentTypeMismatch
         when 'error'
           raise RedirectError, "redirected to #{res['Location']}"
         when 'manual'
