@@ -35,7 +35,7 @@ module Fetch
 
     def acquire(uri)
       @mutex.synchronize {
-        entry = @connections[key(uri)]
+        entry = @connections[uri.origin]
 
         if entry
           entry.in_use = true
@@ -46,7 +46,7 @@ module Fetch
             http.use_ssl            = uri.scheme == 'https'
             http.keep_alive_timeout = Fetch.config.keep_alive_timeout
 
-            @connections[key(uri)] = Entry.new(connection: http, in_use: true)
+            @connections[uri.origin] = Entry.new(connection: http, in_use: true)
 
             http.start
           }
@@ -58,7 +58,7 @@ module Fetch
 
     def release(uri)
       @mutex.synchronize do
-        if entry = @connections[key(uri)]
+        if entry = @connections[uri.origin]
           entry.in_use    = false
           entry.last_used = Time.now
         end
@@ -67,20 +67,16 @@ module Fetch
 
     def sweep
       @mutex.synchronize do
-        @connections.each do |key, entry|
+        @connections.each do |origin, entry|
           next if entry.in_use
 
           if entry.last_used + Fetch.config.connection_max_idle_time < Time.now
             entry.connection.finish
 
-            @connections.delete key
+            @connections.delete origin
           end
         end
       end
-    end
-
-    def key(uri)
-      "#{Thread.current.object_id}/#{uri.origin}".freeze
     end
   end
 end

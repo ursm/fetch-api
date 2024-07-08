@@ -14,6 +14,7 @@ module Fetch
     private
 
     def initialize: () -> void
+    def pool: () -> ConnectionPool
     def to_response: (string, Net::HTTPResponse, bool) -> Response
   end
 end
