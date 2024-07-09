@@ -4,76 +4,63 @@ require 'thread'
 
 module Fetch
   class ConnectionPool
-    Entry = Struct.new(:connection, :in_use, :last_used, keyword_init: true)
-
     def initialize
       @connections = {}
       @mutex       = Mutex.new
 
       @sweeper = Thread.new {
         loop do
-          sleep 1
           sweep
 
-          Thread.stop if @connections.empty?
+          if @connections.empty?
+            Thread.stop
+          else
+            sleep 1
+          end
         end
       }
     end
 
     def with_connection(uri, &block)
-      conn = acquire(uri)
+      conn = checkout(uri)
 
       begin
         block.call(conn)
       ensure
-        release uri
+        checkin uri, conn
       end
     end
 
     private
 
-    def acquire(uri)
-      @mutex.synchronize {
-        entry = @connections[uri.origin]
+    def checkout(uri)
+      if entry = @mutex.synchronize { @connections.delete(uri.origin) }
+        entry.first
+      else
+        # @type var host: String
+        host = uri.host
 
-        if entry
-          entry.in_use = true
-
-          entry.connection
-        else
-          # @type var host: String
-          host = uri.host
-
-          Net::HTTP.new(host, uri.port).tap {|http|
-            http.use_ssl            = uri.scheme == 'https'
-            http.keep_alive_timeout = Fetch.config.keep_alive_timeout
-
-            http.start
-
-            @connections[uri.origin] = Entry.new(connection: http, in_use: true)
-          }
-        end
-      }.tap {
-        @sweeper.wakeup
-      }
+        Net::HTTP.new(host, uri.port).tap {|http|
+          http.use_ssl            = uri.scheme == 'https'
+          http.keep_alive_timeout = Fetch.config.keep_alive_timeout
+          http.start
+        }
+      end
     end
 
-    def release(uri)
+    def checkin(uri, conn)
       @mutex.synchronize do
-        if entry = @connections[uri.origin]
-          entry.in_use    = false
-          entry.last_used = Time.now
-        end
+        @connections[uri.origin] = [conn, Time.now]
       end
+
+      @sweeper.wakeup
     end
 
     def sweep
       @mutex.synchronize do
-        @connections.each do |origin, entry|
-          next if entry.in_use
-
-          if entry.last_used + Fetch.config.max_idle_time < Time.now
-            entry.connection.finish
+        @connections.each do |origin, (conn, last_used)|
+          if last_used + Fetch.config.max_idle_time < Time.now
+            conn.finish
 
             @connections.delete origin
           end
