@@ -51,7 +51,7 @@ module Fetch
           # @type var location: String
           location = res['Location']
 
-          fetch(location, method:, headers:, body:, redirect:, _redirected: true) # steep:ignore ArgumentTypeMismatch
+          fetch(location, method:, headers:, body:, redirect:, _redirected: true)
         when 'error'
           raise RedirectError, "redirected to #{res['Location']}"
         when 'manual'
