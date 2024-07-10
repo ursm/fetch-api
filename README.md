@@ -110,8 +110,8 @@ These values can be configured as follows (in seconds):
 
 ``` ruby
 Fetch.configure do |config|
-  config.max_idle_time      = 10 # default
-  config.keep_alive_timeout = 2  # default
+  config.max_idle_time      = 30 # default
+  config.keep_alive_timeout = 15 # default
 end
 ```
 
