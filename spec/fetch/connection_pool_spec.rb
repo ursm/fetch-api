@@ -8,7 +8,7 @@ RSpec.describe Fetch::ConnectionPool do
   example 'reusing connections' do
     pool = Fetch::ConnectionPool.new
 
-    Fetch.config.with max_idle_time: 10 do
+    Fetch.config.with max_idle_time: 3 do
       conn1 = pool.with_connection(uri, &:itself)
       conn2 = pool.with_connection(uri, &:itself)
 
@@ -21,7 +21,7 @@ RSpec.describe Fetch::ConnectionPool do
 
     Fetch.config.with max_idle_time: 0 do
       conn1 = pool.with_connection(uri, &:itself)
-      Thread.pass
+      sleep 0.1
       conn2 = pool.with_connection(uri, &:itself)
 
       expect(conn1).not_to eq(conn2)
