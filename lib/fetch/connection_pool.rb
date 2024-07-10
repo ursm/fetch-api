@@ -60,7 +60,11 @@ module Fetch
       @mutex.synchronize do
         @connections.each do |origin, (conn, last_used)|
           if last_used + Fetch.config.max_idle_time < Time.now
-            conn.finish
+            begin
+              conn.finish
+            rescue IOError
+              # do nothing
+            end
 
             @connections.delete origin
           end
