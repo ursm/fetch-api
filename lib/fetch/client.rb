@@ -15,7 +15,7 @@ module Fetch
   class Client
     include Singleton
 
-    def fetch(resource, method: :get, headers: [], body: nil, redirect: :follow, _redirected: false)
+    def fetch(resource, method:, headers:, body:, redirect:, redirected: false)
       uri = URI.parse(resource)
       req = Net::HTTP.const_get(method.capitalize).new(uri)
 
@@ -51,16 +51,16 @@ module Fetch
           # @type var location: String
           location = res['Location']
 
-          fetch(location, method:, headers:, body:, redirect:, _redirected: true)
+          fetch(location, method:, headers:, body:, redirect:, redirected: true)
         when 'error'
           raise RedirectError, "redirected to #{res['Location']}"
         when 'manual'
-          to_response(resource, res, _redirected)
+          to_response(resource, res, redirected)
         else
           raise ArgumentError, "invalid redirect option: #{redirect.inspect}"
         end
       else
-        to_response(resource, res, _redirected)
+        to_response(resource, res, redirected)
       end
     end
 

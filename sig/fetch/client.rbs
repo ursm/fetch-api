@@ -4,11 +4,11 @@ module Fetch
 
     def fetch: (
       string,
-      ?method: String | Symbol,
-      ?headers: _Each[[_ToS, _ToS]],
-      ?body: (String | FormData | URLSearchParams)?,
-      ?redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
-      ?_redirected: bool
+      method: String | Symbol,
+      headers: _Each[[_ToS, _ToS]],
+      body: (String | FormData | URLSearchParams)?,
+      redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
+      ?redirected: bool
     ) -> Response
 
     private
