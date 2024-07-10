@@ -1,12 +1,11 @@
 require_relative '../fetch'
 
-require 'thread'
+require 'concurrent/hash'
 
 module Fetch
   class ConnectionPool
     def initialize
-      @connections = {}
-      @mutex       = Mutex.new
+      @connections = Concurrent::Hash.new
 
       @sweeper = Thread.new {
         loop do
@@ -34,7 +33,7 @@ module Fetch
     private
 
     def checkout(uri)
-      if entry = @mutex.synchronize { @connections.delete(uri.origin) }
+      if entry = @connections.delete(uri.origin)
         entry.first
       else
         # @type var host: String
@@ -49,25 +48,21 @@ module Fetch
     end
 
     def checkin(uri, conn)
-      @mutex.synchronize do
-        @connections[uri.origin] = [conn, Time.now]
-      end
+      @connections[uri.origin] = [conn, Time.now]
 
       @sweeper.wakeup
     end
 
     def sweep
-      @mutex.synchronize do
-        @connections.each do |origin, (conn, last_used)|
-          if last_used + Fetch.config.max_idle_time < Time.now
-            begin
-              conn.finish
-            rescue IOError
-              # do nothing
-            end
-
-            @connections.delete origin
+      @connections.each do |origin, (conn, last_used)|
+        if last_used + Fetch.config.max_idle_time < Time.now
+          begin
+            conn.finish
+          rescue IOError
+            # do nothing
           end
+
+          @connections.delete origin
         end
       end
     end

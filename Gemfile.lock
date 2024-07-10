@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     fetch-api (0.4.3)
+      concurrent-ruby
       forwardable
       json
       mini_mime
