@@ -1,0 +1,3 @@
+module Fetch
+  VERSION: String
+end

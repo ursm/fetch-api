@@ -1,6 +1,4 @@
 module Fetch
-  VERSION: String
-
   attr_accessor self.config: Config
 
   def self.configure: () { (Config) -> void } -> void
