@@ -1,0 +1,23 @@
+module Fetch
+  class MultiMap[KIN, KOUT, VIN, VOUT]
+    include Enumerable[[KOUT, VOUT]]
+
+    def initialize: () -> void
+    def append: (KIN, VIN) -> void
+    def delete: (KIN) -> void
+    def get: (KIN) -> VOUT?
+    def get_all: (KIN) -> Array[VOUT]
+    def has: (KIN) -> bool
+    def keys: -> Array[KOUT]
+    def set: (KIN, VIN) -> void
+    def values: () -> Array[VOUT]
+
+    def each: () { ([KOUT, VOUT]) -> void } -> Array[[KOUT, VOUT]]
+            | () -> Enumerator[[KOUT, VOUT], Array[[KOUT, VOUT]]]
+
+    private
+
+    def transform_key: (KIN) -> KOUT
+    def transform_value: (VIN) -> VOUT
+  end
+end

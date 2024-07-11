@@ -1,24 +1,7 @@
 module Fetch
-  class URLSearchParams
-    include Enumerable[[String, String]]
-
-    extend Forwardable
-
-    attr_reader entries: Array[[String, String]]
-
-    def self.build: (_Each[[_ToS, _ToS]]) -> FormData
-
+  class URLSearchParams < MultiMap[_ToS, String, _ToS, String]
     def initialize: (String | _Each[[_ToS, _ToS]]) -> void
-    def append: (_ToS, _ToS) -> void
-    def delete: (_ToS) -> void
-    def get: (_ToS) -> String?
-    def get_all: (_ToS) -> Array[String]
-    def has: (_ToS) -> bool
-    def keys: -> Array[String]
-    def set: (_ToS, _ToS) -> void
-    def values: () -> Array[String]
-
-    def each: () { ([String, String]) -> void } -> Array[[String, String]]
-            | () -> Enumerator[[String, String], Array[[String, String]]]
+    def sort: () -> void
+    def to_s: () -> String
   end
 end
