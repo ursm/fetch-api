@@ -110,8 +110,22 @@ These values can be configured as follows (in seconds):
 
 ``` ruby
 Fetch.configure do |config|
-  config.max_idle_time      = 30 # default
-  config.keep_alive_timeout = 15 # default
+  config.connection_max_idle_time = 30 # default
+end
+```
+
+### Customizing connection
+
+If the lambda is set to `Fetch.config.on_connection_create`, it is called before the connection is initiated. The arguments are a Net::HTTP instance and a URI object. Note that `Net::HTTP#use_ssl` is automatically set according to the URL schema.
+
+``` ruby
+Fetch.configure do |config|
+  config.on_connection_create = -> (conn, uri) {
+    if uri.host == 'example.com'
+      conn.open_timeout = 5
+      conn.read_timeout = 5
+    end
+  }
 end
 ```
 
