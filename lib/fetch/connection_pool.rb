@@ -41,8 +41,10 @@ module Fetch
         host = uri.host
 
         Net::HTTP.new(host, uri.port).tap {|http|
-          http.use_ssl            = uri.scheme == 'https'
-          http.keep_alive_timeout = Fetch.config.keep_alive_timeout
+          http.use_ssl = uri.scheme == 'https'
+
+          Fetch.config.on_connection_create.call http, uri
+
           http.start
         }
       end
@@ -59,7 +61,7 @@ module Fetch
     def sweep
       @mutex.synchronize do
         @connections.each do |origin, (conn, last_used)|
-          if last_used + Fetch.config.max_idle_time < Time.now
+          if last_used + Fetch.config.connection_max_idle_time < Time.now
             begin
               conn.finish
             rescue IOError
