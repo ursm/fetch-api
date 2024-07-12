@@ -17,7 +17,7 @@ module Fetch
 
     private
 
-    def transform_key: (KIN) -> KOUT
-    def transform_value: (VIN) -> VOUT
+    def to_key: (KIN) -> KOUT
+    def to_value: (VIN) -> VOUT
   end
 end

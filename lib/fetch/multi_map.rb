@@ -9,23 +9,23 @@ module Fetch
     attr_reader :entries
 
     def append(key, value)
-      @entries.push [transform_key(key), transform_value(value)]
+      @entries.push [to_key(key), to_value(value)]
     end
 
     def delete(key)
-      @entries.reject! {|k,| k == transform_key(key) }
+      @entries.reject! {|k,| k == to_key(key) }
     end
 
     def get(key)
-      @entries.assoc(transform_key(key))&.last
+      @entries.assoc(to_key(key))&.last
     end
 
     def get_all(key)
-      @entries.select {|k,| k == transform_key(key) }.map(&:last)
+      @entries.select {|k,| k == to_key(key) }.map(&:last)
     end
 
     def has(key)
-      @entries.any? {|k,| k == transform_key(key) }
+      @entries.any? {|k,| k == to_key(key) }
     end
 
     def keys
@@ -47,11 +47,11 @@ module Fetch
 
     private
 
-    def transform_key(key)
+    def to_key(key)
       raise NotImplementedError
     end
 
-    def transform_value(value)
+    def to_value(value)
       raise NotImplementedError
     end
   end

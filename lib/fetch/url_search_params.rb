@@ -29,11 +29,11 @@ module Fetch
 
     private
 
-    def transform_key(key)
+    def to_key(key)
       key.to_s
     end
 
-    def transform_value(value)
+    def to_value(value)
       value.to_s
     end
   end
