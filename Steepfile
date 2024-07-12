@@ -3,7 +3,6 @@
 
    check 'lib'
 
-   library 'forwardable'
    library 'json'
    library 'mini_mime'
    library 'net-http'

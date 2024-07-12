@@ -1,7 +1,5 @@
 require_relative 'multi_map'
 
-require 'forwardable'
-
 module Fetch
   class FormData < MultiMap
     def self.build(enumerable)
