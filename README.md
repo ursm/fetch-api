@@ -129,6 +129,18 @@ Fetch.configure do |config|
 end
 ```
 
+### Parsing JSON
+
+By default, `Fetch::Response#json` calls `JSON.parse` without options. Additional options can be specified in `Fetch.config.json_parse_options`.
+
+``` ruby
+Fetch.configure do |config|
+  config.json_parse_options = {
+    symbolize_names: true
+  }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

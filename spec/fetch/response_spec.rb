@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require 'active_support/core_ext/object/with'
+
 RSpec.describe Fetch::Response do
   def create_response(url: 'http://example.com', status: 200, headers: [], body: nil, redirected: false)
     Fetch::Response.new(url:, status:, headers:, body:, redirected:)
@@ -23,5 +25,13 @@ RSpec.describe Fetch::Response do
     res = create_response(body: '{"foo":"bar"}')
 
     expect(res.json).to eq('foo' => 'bar')
+  end
+
+  example '#json with config' do
+    Fetch::config.with json_parse_options: {symbolize_names: true} do
+      res = create_response(body: '{"foo":"bar"}')
+
+      expect(res.json).to eq(foo: 'bar')
+    end
   end
 end

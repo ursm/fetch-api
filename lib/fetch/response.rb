@@ -21,10 +21,10 @@ module Fetch
       Rack::Utils::HTTP_STATUS_CODES[status]
     end
 
-    def json(...)
+    def json(**json_parse_options)
       return nil unless body
 
-      JSON.parse(body, ...)
+      JSON.parse(body, **Fetch.config.json_parse_options, **json_parse_options)
     end
   end
 end
