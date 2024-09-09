@@ -12,5 +12,6 @@ module Fetch
   configure do |config|
     config.connection_max_idle_time = 30
     config.on_connection_create     = -> (*) {}
+    config.json_parse_options       = {}
   end
 end
