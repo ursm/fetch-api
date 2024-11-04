@@ -2,6 +2,7 @@ require 'json'
 require 'net/http'
 require 'rack/request'
 require 'rackup'
+require 'webrick'
 
 app = -> (env) {
   req = Rack::Request.new(env)
