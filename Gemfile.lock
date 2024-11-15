@@ -53,7 +53,7 @@ GEM
       racc
     racc (1.8.1)
     rack (3.1.8)
-    rackup (2.2.0)
+    rackup (2.2.1)
       rack (>= 3)
     rainbow (3.1.1)
     rake (13.2.1)
