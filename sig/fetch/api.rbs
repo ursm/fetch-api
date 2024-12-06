@@ -1,5 +1,5 @@
 module Fetch
-  class API
+  module API
     def self?.fetch: (
       string,
       ?method: String | Symbol,
