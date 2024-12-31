@@ -2,6 +2,8 @@ module Fetch
   class Client
     include Singleton
 
+    def self.instance: () -> Client
+
     def fetch: (
       string,
       method: String | Symbol,

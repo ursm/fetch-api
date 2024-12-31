@@ -41,8 +41,8 @@ module Fetch
       @entries.map(&:last)
     end
 
-    def each(&)
-      @entries.each(&)
+    def each(&block)
+      block ? @entries.each(&block) : @entries.each
     end
 
     private

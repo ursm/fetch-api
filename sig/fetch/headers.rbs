@@ -2,6 +2,8 @@ module Fetch
   class Headers
     include Enumerable[[String, String]]
 
+    @data: Hash[String, Array[String]]
+
     def initialize: (_Each[[_ToS, _ToS]]) -> void
     def append: (_ToS, _ToS) -> void
     def delete: (_ToS) -> void

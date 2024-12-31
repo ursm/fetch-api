@@ -1,6 +1,8 @@
 module Fetch
-  class MultiMap[KIN, KOUT, VIN, VOUT]
+  class MultiMap[KIN, KOUT < Comparable, VIN, VOUT]
     include Enumerable[[KOUT, VOUT]]
+
+    @entries: Array[[KOUT, VOUT]]
 
     def initialize: () -> void
     def append: (KIN, VIN) -> void

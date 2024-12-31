@@ -35,7 +35,7 @@ module Fetch
     end
 
     def set(key, value)
-      @data[key.to_s.downcase] = [value]
+      @data[key.to_s.downcase] = [value.to_s]
     end
 
     def values

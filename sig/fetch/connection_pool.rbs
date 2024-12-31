@@ -1,5 +1,7 @@
 module Fetch
   class ConnectionPool
+    @connections: Hash[String, [Net::HTTP, Time]]
+
     def initialize: () -> void
     def with_connection: [T] (URI::HTTP) { (Net::HTTP) -> T } -> T
 
