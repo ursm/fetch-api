@@ -2,6 +2,6 @@ module Fetch
   class Config
     attr_accessor connection_max_idle_time: Integer
     attr_accessor on_connection_create: ^(Net::HTTP, URI::HTTP) -> void
-    attr_accessor json_parse_options: json_options
+    attr_accessor json_parse_options: JSON::options
   end
 end
