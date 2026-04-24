@@ -254,7 +254,7 @@ gems:
   source:
     type: stdlib
 - name: webrick
-  version: 1.9.1
+  version: 1.9.2
   source:
     type: rubygems
 gemfile_lock_path: Gemfile.lock
