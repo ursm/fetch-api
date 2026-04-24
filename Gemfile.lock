@@ -107,7 +107,7 @@ GEM
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
     uri (1.1.1)
-    webrick (1.9.1)
+    webrick (1.9.2)
 
 PLATFORMS
   ruby
