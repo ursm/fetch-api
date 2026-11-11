@@ -12,10 +12,10 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.3
+          ruby-version: '4.0'
           bundler-cache: true
 
-      - run: rbs collection install
+      - run: bundle exec rbs collection install
       - run: bundle exec rake rbs
 
   steep:
@@ -26,8 +26,8 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.3
+          ruby-version: '4.0'
           bundler-cache: true
 
-      - run: rbs collection install
+      - run: bundle exec rbs collection install
       - run: bundle exec rake steep
