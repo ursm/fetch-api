@@ -21,8 +21,6 @@ Gem::Specification.new do |spec|
     'sig/**/*.rbs',
   ]
 
-  spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{\Aexe/}) { File.basename(_1) }
   spec.require_paths = ['lib']
 
   spec.add_dependency 'json'
