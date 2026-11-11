@@ -8,7 +8,7 @@ module Fetch
 
     def initialize: (url: String, status: Integer, headers: Headers, body: String?, redirected: bool) -> void
     def ok: () -> bool
-    def status_text: () -> String
+    def status_text: () -> String?
     def json: (**JSON::options) -> untyped
   end
 end

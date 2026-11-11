@@ -1,6 +1,11 @@
 module Fetch
   class ConnectionPool
-    @connections: Hash[String, [Net::HTTP, Time]]
+    SWEEP_INTERVAL: Integer | Float
+
+    @connections: Hash[String, Array[[Net::HTTP, Float]]]
+    @mutex: Thread::Mutex
+    @pid: Integer
+    @sweeper: Thread?
 
     def initialize: () -> void
     def with_connection: [T] (URI::HTTP) { (Net::HTTP) -> T } -> T
@@ -9,6 +14,11 @@ module Fetch
 
     def checkout: (URI::HTTP) -> Net::HTTP
     def checkin: (URI::HTTP, Net::HTTP) -> void
-    def sweep: () -> void
+    def connect: (URI::HTTP) -> Net::HTTP
+    def close: (Array[Net::HTTP]) -> void
+    def now: () -> Float
+    def synchronize: [T] () { () -> T } -> T
+    def start_sweeper: () -> void
+    def sweep: () -> Array[Net::HTTP]
   end
 end

@@ -1,5 +1,5 @@
 require 'json'
-require 'rack/utils'
+require 'net/http/status'
 
 module Fetch
   class Response
@@ -18,7 +18,7 @@ module Fetch
     end
 
     def status_text
-      Rack::Utils::HTTP_STATUS_CODES[status]
+      Net::HTTP::STATUS_CODES[status]
     end
 
     def json(**json_parse_options)

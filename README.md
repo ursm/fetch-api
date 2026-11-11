@@ -50,6 +50,12 @@ Options for `fetch` method:
 - `body`: Request body (default: `nil`)
 - `redirect`: Follow redirects (one of `:follow`, `:error`, `:manual`, default: `:follow`)
 
+When following redirects, `fetch` behaves like the Fetch Standard:
+
+- Gives up with `Fetch::RedirectError` after 20 redirects
+- Changes the method to `GET` and drops the body on 301 / 302 (for `POST`) and 303 (for anything but `GET` / `HEAD`)
+- Removes the `Authorization` header when redirected to a different origin
+
 Methods of `Fetch::Response` object:
 
 - `body`: Response body (String)
@@ -104,13 +110,13 @@ res = fetch('http://example.com', **{
 
 ### Connection pooling
 
-Fetch::API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. Different connections are returned for different threads (in other words, Fetch::API is thread-safe).
+Fetch::API automatically pools and reuses connections to the same origin. Connections are closed after a certain amount of time has passed since the last use, and a new connection is used the next time. The pool is shared by all threads and a connection is never used by more than one thread at a time (in other words, Fetch::API is thread-safe). A forked process does not reuse the connections of its parent. The number of connections is not limited: as many connections as concurrent requests are opened, and they stay in the pool until they expire.
 
 These values can be configured as follows (in seconds):
 
 ``` ruby
 Fetch.configure do |config|
-  config.connection_max_idle_time = 30 # default
+  config.connection_max_idle_time = 30 # default (Float::INFINITY to keep connections forever)
 end
 ```
 
