@@ -19,6 +19,7 @@ RSpec.describe Fetch::Response do
     res = create_response(status: 200)
 
     expect(res.status_text).to eq('OK')
+    expect(create_response(status: 299).status_text).to be_nil
   end
 
   example '#json' do

@@ -2,21 +2,32 @@ module Fetch
   class Client
     include Singleton
 
+    MAX_REDIRECTS: Integer
+    REDIRECT_STATUSES: Array[Integer]
+    REDIRECT_MODES: Array[String]
+    BODY_HEADERS: Array[String]
+
+    type body = (String | FormData | URLSearchParams)?
+
+    @pool: ConnectionPool
+
     def self.instance: () -> Client
 
     def fetch: (
       string,
       method: String | Symbol,
       headers: _Each[[_ToS, _ToS]],
-      body: (String | FormData | URLSearchParams)?,
-      redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual,
-      ?redirected: bool
+      body: body,
+      redirect: 'follow' | 'error' | 'manual' | :follow | :error | :manual
     ) -> Response
 
     private
 
     def initialize: () -> void
-    def pool: () -> ConnectionPool
-    def to_response: (string, Net::HTTPResponse, bool) -> Response
+    def request: (URI::HTTP, String, Headers, body) -> Net::HTTPResponse
+    def resolve: (URI::HTTP, String) -> URI::HTTP
+    def rewrite_to_get?: (Integer, String) -> bool
+    def rewind: (body) -> void
+    def to_response: (URI::HTTP, Net::HTTPResponse, bool) -> Response
   end
 end

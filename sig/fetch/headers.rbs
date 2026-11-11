@@ -4,7 +4,7 @@ module Fetch
 
     @data: Hash[String, Array[String]]
 
-    def initialize: (_Each[[_ToS, _ToS]]) -> void
+    def initialize: (?_Each[[_ToS, _ToS]]) -> void
     def append: (_ToS, _ToS) -> void
     def delete: (_ToS) -> void
     def entries: () -> Array[[String, String]]
