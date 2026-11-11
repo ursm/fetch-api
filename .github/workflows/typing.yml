@@ -3,8 +3,11 @@ name: Typing
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
-  rbs:
+  typing:
     runs-on: ubuntu-latest
 
     steps:
@@ -12,22 +15,9 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.3
+          ruby-version: '4.0'
           bundler-cache: true
 
-      - run: rbs collection install
+      - run: bundle exec rbs collection install
       - run: bundle exec rake rbs
-
-  steep:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3.3
-          bundler-cache: true
-
-      - run: rbs collection install
       - run: bundle exec rake steep
